@@ -1,0 +1,23 @@
+import cv2
+import glob
+
+
+image_paths = glob.glob("Images/*.png")
+images = []
+
+for image in image_paths:
+    img = cv2.imread(image)
+    images.append(img)
+    cv2.imshow("Image", img)
+    cv2.waitKey(0)
+
+imageStitcher = cv2.Stitcher.create()
+error, stitched_img = imageStitcher.stitch(images)
+
+if not error:
+    cv2.imwrite("stitched.png", stitched_img)
+    cv2.imshow("Stitched image", stitched_img)
+    cv2.waitKey(0)
+
+if error:
+    print("Error")
